@@ -23,7 +23,7 @@ paths:
       description: Get All Components
       operationId: getComponents
       responses:
-       "200":
+        "200":
           description: Success get all Component
           content:
             application/json:
@@ -43,7 +43,7 @@ paths:
                           id:
                             type: integer
                             example: 1
-                          name: 
+                          name:
                             type: string
                             example: Kayu
                           email:
@@ -68,7 +68,7 @@ paths:
                   type: string
                   example: Merupakan Besi
       responses:
-        "200":
+        "201":
           description: Success create new Component
           content:
             application/json:
@@ -88,7 +88,7 @@ paths:
                           id:
                             type: integer
                             example: 1
-                          name: 
+                          name:
                             type: string
                             example: Kayu
                           description:
@@ -109,64 +109,8 @@ paths:
                     example: name is required
                   data:
                     type: object
-    put:
-      tags:
-        - Components
-      summary: Update Component
-      description: Update Component
-      operationId: updateComponent
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  example: Besi
-                description:
-                  type: string
-                  example: Merupakan Besi
-      responses:
-        "200":
-          description: Success update Component
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: boolean
-                  message:
-                    type: string
-                  data:
-                    type: object
-                    properties:
-                      component:
-                        type: object
-                        properties:
-                          id:
-                            type: integer
-                            example: 1
-                          name: 
-                            type: string
-                            example: Kayu
-                          description:
-                            type: string
-                            example: Merupakan komponen kerangka utama
-        "400":
-          description: Can't find Component with id given
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: boolean
-                    example: false
-                  message:
-                    type: string
-    
+
+
   /components/{id}:
     get:
       tags:
@@ -204,10 +148,76 @@ paths:
                           id:
                             type: integer
                             example: 1
-                          name: 
+                          name:
                             type: string
                             example: Kayu
                           email:
+                            type: string
+                            example: Merupakan komponen kerangka utama
+        "400":
+          description: Can't find Component with id given
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Can't find Component with id given
+    put:
+      tags:
+        - Components
+      summary: Update Component
+      description: Update Component
+      operationId: updateComponent
+      parameters:
+        - name: id
+          in: path
+          description: ID of order that needs to be fetched
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Besi
+                description:
+                  type: string
+                  example: Merupakan Besi
+      responses:
+        "201":
+          description: Success update Component
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      component:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 1
+                          name:
+                            type: string
+                            example: Kayu
+                          description:
                             type: string
                             example: Merupakan komponen kerangka utama
         "400":
@@ -259,7 +269,7 @@ paths:
                           id:
                             type: integer
                             example: 1
-                          name: 
+                          name:
                             type: string
                             example: Kayu
                           email:
@@ -276,9 +286,9 @@ paths:
                     type: boolean
                     example: false
                   message:
-                    type: string   
+                    type: string
                     example: Can't find Component with id given
-    
+
   /products:
     get:
       tags:
@@ -287,7 +297,7 @@ paths:
       description: Get All Products
       operationId: getProducts
       responses:
-       "200":
+        "200":
           description: Success get all product
           content:
             application/json:
@@ -307,7 +317,7 @@ paths:
                           id:
                             type: integer
                             example: 1
-                          name: 
+                          name:
                             type: string
                             example: Gergaji Besi
                           quantity:
@@ -331,11 +341,11 @@ paths:
                 quantity:
                   type: integer
                   example: 3
-                component_id: 
+                component_id:
                   type: integer
                   example: 1
       responses:
-        "200":
+        "201":
           description: Success create new Product
           content:
             application/json:
@@ -355,7 +365,7 @@ paths:
                           id:
                             type: integer
                             example: 1
-                          name: 
+                          name:
                             type: string
                             example: Gergaji Besi
                           quantity:
@@ -385,76 +395,6 @@ paths:
                     example: name,quantity,component product is must provided
                   data:
                     type: object
-    put:
-      tags:
-        - Products
-      summary: Update Product
-      description: Update Product
-      operationId: updateProduct
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  example: Gergaji Besi
-                quantity:
-                  type: integer
-                  example: 100
-                component_id:
-                  type: integer
-                  example: 2
-      responses:
-        "200":
-          description: Success update Product
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: boolean
-                  message:
-                    type: string
-                  data:
-                    type: object
-                    properties:
-                      product:
-                        type: object
-                        properties:
-                          id:
-                            type: integer
-                            example: 1
-                          name: 
-                            type: string
-                            example: Gergaji Kayu
-                          quantity:
-                            type: integer
-                            example: 120
-                      product_components:
-                        type: object
-                        properties:
-                          product_id:
-                            type: integer
-                            example: 1
-                          component_id:
-                            type: integer
-                            example: 2
-        "400":
-          description: Can't find Product with id given
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: boolean
-                    example: false
-                  message:
-                    type: string
-                    example: Can't find Product with id given
     
   /products/{id}:
     get:
@@ -493,12 +433,90 @@ paths:
                           id:
                             type: integer
                             example: 1
-                          name: 
+                          name:
                             type: string
                             example: Gergaji Besi
                           quantity:
                             type: integer
                             example: 3
+        "400":
+          description: Can't find Product with id given
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Can't find Product with id given
+    put:
+      tags:
+        - Products
+      summary: Update Product
+      description: Update Product
+      operationId: updateProduct
+      parameters:
+        - name: id
+          in: path
+          description: ID of order that needs to be fetched
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Gergaji Besi
+                quantity:
+                  type: integer
+                  example: 100
+                component_id:
+                  type: integer
+                  example: 2
+      responses:
+        "201":
+          description: Success update Product
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      product:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 1
+                          name:
+                            type: string
+                            example: Gergaji Kayu
+                          quantity:
+                            type: integer
+                            example: 120
+                      product_components:
+                        type: object
+                        properties:
+                          product_id:
+                            type: integer
+                            example: 1
+                          component_id:
+                            type: integer
+                            example: 2
         "400":
           description: Can't find Product with id given
           content:
@@ -548,7 +566,7 @@ paths:
                           id:
                             type: integer
                             example: 1
-                          name: 
+                          name:
                             type: string
                             example: Gergaji Besi
                           quantity:
@@ -567,7 +585,7 @@ paths:
                   message:
                     type: string
                     example: Can't find Product with id given
-  
+
   /suppliers:
     get:
       tags:
@@ -576,7 +594,7 @@ paths:
       description: Get All Suppliers
       operationId: getSuppliers
       responses:
-       "200":
+        "200":
           description: Success get all supplier
           content:
             application/json:
@@ -596,7 +614,7 @@ paths:
                           id:
                             type: integer
                             example: 1
-                          name: 
+                          name:
                             type: string
                             example: PT. Bagus Kayu
                           address:
@@ -620,11 +638,11 @@ paths:
                 address:
                   type: string
                   example: JL. Sematang Borang No.13
-                component_id: 
+                component_id:
                   type: integer
                   example: 1
       responses:
-        "200":
+        "201":
           description: Success create new Supplier
           content:
             application/json:
@@ -644,7 +662,7 @@ paths:
                           id:
                             type: integer
                             example: 1
-                          name: 
+                          name:
                             type: string
                             example: PT. Besi Sejati
                           address:
@@ -674,77 +692,7 @@ paths:
                     example: name,address,component_id is must provided
                   data:
                     type: object
-    put:
-      tags:
-        - Suppliers
-      summary: Update Supplier
-      description: Update Supplier
-      operationId: updateSupplier
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  example: PT. Besi yo Wesi
-                address:
-                  type: string
-                  example: JL. Soeakarno No.2
-                component_id:
-                  type: integer
-                  example: 2
-      responses:
-        "200":
-          description: Success update Product
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: boolean
-                  message:
-                    type: string
-                  data:
-                    type: object
-                    properties:
-                      component:
-                        type: object
-                        properties:
-                          id:
-                            type: integer
-                            example: 1
-                          name: 
-                            type: string
-                            example: Gergaji Kayu
-                          quantity:
-                            type: integer
-                            example: 120
-                      component_suppliers:
-                        type: object
-                        properties:
-                          component_id:
-                            type: integer
-                            example: 1
-                          supplier_id:
-                            type: integer
-                            example: 2
-        "400":
-          description: Can't find Component with id given
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: boolean
-                    example: false
-                  message:
-                    type: string
-                    example: Can't find Component with id given
-    
+
   /suppliers/{id}:
     get:
       tags:
@@ -782,7 +730,7 @@ paths:
                           id:
                             type: integer
                             example: 1
-                          name: 
+                          name:
                             type: string
                             example: PT. Bagus Kayu
                           address:
@@ -801,6 +749,84 @@ paths:
                   message:
                     type: string
                     example: Can't find Supplier with id given
+    put:
+      tags:
+        - Suppliers
+      summary: Update Supplier
+      description: Update Supplier
+      operationId: updateSupplier
+      parameters:
+        - name: id
+          in: path
+          description: ID of order that needs to be fetched
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: PT. Besi yo Wesi
+                address:
+                  type: string
+                  example: JL. Soeakarno No.2
+                component_id:
+                  type: integer
+                  example: 2
+      responses:
+        "201":
+          description: Success update Product
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      component:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 1
+                          name:
+                            type: string
+                            example: Gergaji Kayu
+                          quantity:
+                            type: integer
+                            example: 120
+                      component_suppliers:
+                        type: object
+                        properties:
+                          component_id:
+                            type: integer
+                            example: 1
+                          supplier_id:
+                            type: integer
+                            example: 2
+        "400":
+          description: Can't find Component with id given
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Can't find Component with id given
     delete:
       tags:
         - Suppliers
@@ -837,7 +863,7 @@ paths:
                           id:
                             type: integer
                             example: 1
-                          name: 
+                          name:
                             type: string
                             example: PT. Kayu Manis
                           address:
@@ -856,33 +882,3 @@ paths:
                   message:
                     type: string
                     example: Can't find Supplier with id given
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
