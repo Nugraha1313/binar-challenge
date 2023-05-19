@@ -90,10 +90,17 @@ module.exports = {
       if (!name || !quantity || !component_id) {
         return res.status(404).json({
           status: false,
-          message: errorMessage,
+          message: "Data Tidak Lengkap",
           data: null,
         });
       }
+      // if (!name || !quantity || !component_id) {
+      //   return res.status(404).json({
+      //     status: false,
+      //     message: errorMessage,
+      //     data: null,
+      //   });
+      // }
 
       // find component_id
       const components_id = await components.findAll({
