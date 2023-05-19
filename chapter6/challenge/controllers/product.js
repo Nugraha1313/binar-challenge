@@ -312,7 +312,7 @@ module.exports = {
       });
 
       if (!deleted) {
-        return res.status(404).json({
+        return res.status(400).json({
           status: false,
           message: "Cant Find product with id " + product_id,
           data: null,

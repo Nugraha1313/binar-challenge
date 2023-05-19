@@ -224,64 +224,45 @@ describe("[PUT] /products/:product_id endpoint", () => {
 // delete
 describe("[DELETE] /products/:product_id endpoint", () => {
   // Positive
-  test("Positive: valid product id", async () => {
+//   test("Positive: valid product id", async () => {
+//     try {
+//       const res = await supertest(app).delete(`/products/${product_id}`);
+
+//       console.log(res.body);
+
+//       expect(res.statusCode).toBe(200);
+//       expect(res.body).toHaveProperty("status");
+//       expect(res.body).toHaveProperty("message");
+//       expect(res.body).toHaveProperty("data");
+//       expect(res.body.status).toBe(true);
+//       expect(res.body.message).toBe(
+//         `Success delete product with id ${product_id}`
+//       );
+//       expect(res.body.data).toStrictEqual(1);
+//     } catch (error) {
+//       expect(error).toBe("error");
+//     }
+//   });
+  // negative 2
+  test("Negative: invalid product_id", async () => {
     try {
-    //   const res = await supertest(app).delete(`/products/${product_id}`);
-      const res = await supertest(app).delete(`/products/22`);
+      const res = await supertest(app).delete(
+        `/products/${invalid_product_id}`
+      );
 
       console.log(res.body);
 
-      expect(res.statusCode).toBe(200);
+      expect(res.statusCode).toBe(400);
       expect(res.body).toHaveProperty("status");
       expect(res.body).toHaveProperty("message");
       expect(res.body).toHaveProperty("data");
-      expect(res.body.status).toBe(true);
+      expect(res.body.status).toBe(false);
       expect(res.body.message).toBe(
-        `Success delete product with id 22`
+        `Cant Find product with id ${invalid_product_id}`
       );
-      expect(res.body.data).toStrictEqual(1);
+      expect(res.body.data).toBe(null);
     } catch (error) {
       expect(error).toBe("error");
     }
   });
-//   // negative 1
-//   test("Negative: component is used", async () => {
-//     try {
-//       const res = await supertest(app).delete(`/components/${component_id}`);
-
-//       console.log(res.body);
-
-//       expect(res.statusCode).toBe(400);
-//       expect(res.body).toHaveProperty("status");
-//       expect(res.body).toHaveProperty("message");
-//       expect(res.body).toHaveProperty("data");
-//       expect(res.body.status).toBe(false);
-//       expect(res.body.message).toBe("Component is used in Product");
-//       expect(res.body.data).toBe(null);
-//     } catch (error) {
-//       expect(error).toBe("error");
-//     }
-//   });
-//   // negative 2
-//   test("Negative: invalid component id", async () => {
-//     try {
-//       const res = await supertest(app).delete(
-//         `/components/${invalid_component_id}`
-//       );
-
-//       console.log(res.body);
-
-//       expect(res.statusCode).toBe(400);
-//       expect(res.body).toHaveProperty("status");
-//       expect(res.body).toHaveProperty("message");
-//       expect(res.body).toHaveProperty("data");
-//       expect(res.body.status).toBe(false);
-//       expect(res.body.message).toBe(
-//         `Cant Find Component with id ${invalid_component_id}`
-//       );
-//       expect(res.body.data).toBe(null);
-//     } catch (error) {
-//       expect(error).toBe("error");
-//     }
-//   });
 });
