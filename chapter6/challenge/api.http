@@ -16,7 +16,7 @@ Content-Type: application/json
 {
     "name": "Lemari Besis",
     "quantity": 100,
-    "component_id": 1
+    "component_id": 12
 }
 
 ### update (done)
@@ -29,7 +29,7 @@ Content-Type: application/json
 }
 
 ### delete (done)
-DELETE  http://localhost:3500/products/1
+DELETE  http://localhost:3500/products/23
 
 # Component
 

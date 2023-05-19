@@ -88,7 +88,7 @@ module.exports = {
       }
 
       if (!name || !quantity || !component_id) {
-        return res.status(404).json({
+        return res.status(400).json({
           status: false,
           message: "Data Tidak Lengkap",
           data: null,
@@ -186,7 +186,7 @@ module.exports = {
         });
 
         if (updated[0] == 0) {
-          return res.status(404).json({
+          return res.status(400).json({
             status: false,
             message: "Cant Find product with id " + product_id,
             data: null,
@@ -211,7 +211,7 @@ module.exports = {
         (component) => component.id == component_id
       );
       if (!isExist) {
-        return res.status(404).json({
+        return res.status(400).json({
           status: false,
           message: "Can't find component with id " + component_id,
           data: null,
@@ -249,7 +249,7 @@ module.exports = {
       // });
 
       if (updateProduct[0] == 0) {
-        return res.status(404).json({
+        return res.status(400).json({
           status: false,
           message: "Cant Find product with id " + product_id,
           data: null,
@@ -296,13 +296,13 @@ module.exports = {
         },
       });
 
-      if (isUsed) {
-        return res.status(404).json({
-          status: false,
-          message: "Can't delete product with id " + product_id + " because it's used in product_components",
-          data: null,
-        });
-      }
+      // if (isUsed) {
+      //   return res.status(404).json({
+      //     status: false,
+      //     message: "Can't delete product with id " + product_id + " because it's used in product_components",
+      //     data: null,
+      //   });
+      // }
       
       
       const deleted = await products.destroy({

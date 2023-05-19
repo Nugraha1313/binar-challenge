@@ -3,17 +3,25 @@ const app = require("../app.js");
 // const truncate = require("../utils/truncate.js");
 
 // truncate.user();
+const product_id = 1;
+const component_id = 1;
+const invalid_product_id = 99;
+const invalid_component_id = 99;
 
 const product = {
   name: "Meja Kayu",
-  description: "Merupakan Material Gergaji",
-  component_id: 1
+  quantity: 100,
+  component_id: 1,
 };
-const product_id = 1;
-const invalid_product_id = 99;
+
+const invalidProduct = {
+  name: "Meja Besi",
+  quantity: 100,
+  component_id: invalid_component_id,
+};
 
 // getAll
-describe("Test /products endpoint", () => {
+describe("[GET] /products endpoint", () => {
   // postiive
   test("Positive: get all data", async () => {
     try {
@@ -33,7 +41,7 @@ describe("Test /products endpoint", () => {
 });
 
 // getSingle
-describe("Test /products/:product_id endpoint", () => {
+describe("[GET] /products/:product_id endpoint", () => {
   // postiive
   test("Positive: product_id is valid", async () => {
     try {
@@ -57,9 +65,7 @@ describe("Test /products/:product_id endpoint", () => {
   //   negative
   test("Negative: product_id is not valid", async () => {
     try {
-      const res = await supertest(app).get(
-        `/products/${invalid_product_id}`
-      );
+      const res = await supertest(app).get(`/products/${invalid_product_id}`);
 
       console.log(res.body);
 
@@ -79,7 +85,7 @@ describe("Test /products/:product_id endpoint", () => {
 });
 
 // create
-describe("Test /products endpoint", () => {
+describe("[POST] /products endpoint", () => {
   // Positive
   test("Positive: valid data", async () => {
     try {
@@ -91,16 +97,19 @@ describe("Test /products endpoint", () => {
       expect(res.body).toHaveProperty("status");
       expect(res.body).toHaveProperty("message");
       expect(res.body).toHaveProperty("data");
-      expect(res.body.data).toHaveProperty("id");
-      expect(res.body.data).toHaveProperty("name");
-      expect(res.body.data).toHaveProperty("quantity");
+      expect(res.body.data[0]).toHaveProperty("id");
+      expect(res.body.data[0]).toHaveProperty("name");
+      expect(res.body.data[0]).toHaveProperty("quantity");
+      expect(res.body.data[1]).toHaveProperty("component_id");
+      expect(res.body.data[1]).toHaveProperty("product_id");
       expect(res.body.status).toBe(true);
       expect(res.body.message).toBe("Success create new Product");
+      expect(Array.isArray(res.body.data)).toBe(true);
     } catch (error) {
       expect(error).toBe("error");
     }
   });
-  // negative
+  // negative 1
   test("Negative: data tidak lengkap", async () => {
     try {
       const res = await supertest(app).post("/products").send({
@@ -109,7 +118,7 @@ describe("Test /products endpoint", () => {
 
       console.log(res.body);
 
-      expect(res.statusCode).toBe(404);
+      expect(res.statusCode).toBe(400);
       expect(res.body).toHaveProperty("status");
       expect(res.body).toHaveProperty("message");
       expect(res.body).toHaveProperty("data");
@@ -119,81 +128,122 @@ describe("Test /products endpoint", () => {
       expect(error).toBe("error");
     }
   });
+  //   negative 2
+  test("Negative: component_id invalid", async () => {
+    try {
+      const res = await supertest(app).post("/products").send(invalidProduct);
+
+      console.log(res.body);
+
+      expect(res.statusCode).toBe(404);
+      expect(res.body).toHaveProperty("status");
+      expect(res.body).toHaveProperty("message");
+      expect(res.body).toHaveProperty("data");
+      expect(res.body.status).toBe(false);
+      expect(res.body.message).toBe(
+        `Can't find component with id ${invalidProduct.component_id}`
+      );
+    } catch (error) {
+      expect(error).toBe("error");
+    }
+  });
 });
 
 // update
-// describe("Test /components/:component_id endpoint", () => {
-//   // Positive
-//   test("Positive: valid component id", async () => {
-//     try {
-//       const res = await supertest(app).put(`/components/${component_id}`).send({
-//         description:
-//           "Merupakan Material Gergaji yang berkualitas sangat tinggi",
-//       });
+describe("[PUT] /products/:product_id endpoint", () => {
+//   Positive
+  test("Positive: valid product_id", async () => {
+    try {
+      const res = await supertest(app).put(`/products/${product_id}`).send({
+        quantity: 225,
+      });
 
-//       console.log(res.body);
+      console.log(res.body);
 
-//       expect(res.statusCode).toBe(201);
-//       expect(res.body).toHaveProperty("status");
-//       expect(res.body).toHaveProperty("message");
-//       expect(res.body).toHaveProperty("data");
-//       expect(res.body.status).toBe(true);
-//       expect(res.body.message).toBe("Success update Component");
-//       expect(res.body.data).toStrictEqual([1]);
-//     } catch (error) {
-//       expect(error).toBe("error");
-//     }
-//   });
-//   // negative
-//   test("Negative: invalid component id", async () => {
-//     try {
-//       const res = await supertest(app)
-//         .put(`/components/${invalid_component_id}`)
-//         .send({
-//           name: "Kayu Jati",
-//           description:
-//             "Merupakan Material Gergaji yang berkualitas sangat tinggi",
-//         });
+      expect(res.statusCode).toBe(201);
+      expect(res.body).toHaveProperty("status");
+      expect(res.body).toHaveProperty("message");
+      expect(res.body).toHaveProperty("data");
+      expect(res.body.status).toBe(true);
+      expect(res.body.message).toBe("Success update product");
+      expect(res.body.data).toStrictEqual([1]);
+    } catch (error) {
+      expect(error).toBe("error");
+    }
+  });
+    // negative 1
+    test("Negative: invalid product id", async () => {
+      try {
+        const res = await supertest(app)
+          .put(`/products/${invalid_product_id}`)
+          .send({
+            quantity: 225,
+          });
 
-//       console.log(res.body);
+        console.log(res.body);
 
-//       expect(res.statusCode).toBe(400);
-//       expect(res.body).toHaveProperty("status");
-//       expect(res.body).toHaveProperty("message");
-//       expect(res.body).toHaveProperty("data");
-//       expect(res.body.status).toBe(false);
-//       expect(res.body.message).toBe(
-//         `Cant Find Component with id ${invalid_component_id}`
-//       );
-//       expect(res.body.data).toBe(null);
-//     } catch (error) {
-//       expect(error).toBe("error");
-//     }
-//   });
-// });
+        expect(res.statusCode).toBe(400);
+        expect(res.body).toHaveProperty("status");
+        expect(res.body).toHaveProperty("message");
+        expect(res.body).toHaveProperty("data");
+        expect(res.body.status).toBe(false);
+        expect(res.body.message).toBe(
+          `Cant Find product with id ${invalid_product_id}`
+        );
+        expect(res.body.data).toBe(null);
+      } catch (error) {
+        expect(error).toBe("error");
+      }
+    });
+    // negative 2
+    test("Negative: invalid component_id", async () => {
+      try {
+        const res = await supertest(app)
+          .put(`/products/${product_id}`)
+          .send({
+            component_id: invalid_component_id
+          });
+
+        console.log(res.body);
+
+        expect(res.statusCode).toBe(400);
+        expect(res.body).toHaveProperty("status");
+        expect(res.body).toHaveProperty("message");
+        expect(res.body).toHaveProperty("data");
+        expect(res.body.status).toBe(false);
+        expect(res.body.message).toBe(
+          `Can't find component with id ${invalid_component_id}`
+        );
+        expect(res.body.data).toBe(null);
+      } catch (error) {
+        expect(error).toBe("error");
+      }
+    });
+});
 
 // delete
-// describe("Test /components/:component_id endpoint", () => {
-//   // Positive
-//   // test("Positive: valid component id", async () => {
-//   //   try {
-//   //     const res = await supertest(app).delete(`/components/${component_id}}`);
+describe("[DELETE] /products/:product_id endpoint", () => {
+  // Positive
+  test("Positive: valid product id", async () => {
+    try {
+    //   const res = await supertest(app).delete(`/products/${product_id}`);
+      const res = await supertest(app).delete(`/products/22`);
 
-//   //     console.log(res.body);
+      console.log(res.body);
 
-//   //     expect(res.statusCode).toBe(200);
-//   //     expect(res.body).toHaveProperty("status");
-//   //     expect(res.body).toHaveProperty("message");
-//   //     expect(res.body).toHaveProperty("data");
-//   //     expect(res.body.status).toBe(true);
-//   //     expect(res.body.message).toBe(
-//   //       `Success delete Component with id ${component_id}`
-//   //     );
-//   //     expect(res.body.data).toStrictEqual(1);
-//   //   } catch (error) {
-//   //     expect(error).toBe("error");
-//   //   }
-//   // });
+      expect(res.statusCode).toBe(200);
+      expect(res.body).toHaveProperty("status");
+      expect(res.body).toHaveProperty("message");
+      expect(res.body).toHaveProperty("data");
+      expect(res.body.status).toBe(true);
+      expect(res.body.message).toBe(
+        `Success delete product with id 22`
+      );
+      expect(res.body.data).toStrictEqual(1);
+    } catch (error) {
+      expect(error).toBe("error");
+    }
+  });
 //   // negative 1
 //   test("Negative: component is used", async () => {
 //     try {
@@ -234,4 +284,4 @@ describe("Test /products endpoint", () => {
 //       expect(error).toBe("error");
 //     }
 //   });
-// });
+});
