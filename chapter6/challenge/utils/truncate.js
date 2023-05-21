@@ -7,3 +7,26 @@
 //     await Post.destroy({ truncate: true, restartIdentity: true });
 //   },
 // };
+
+// require("dotenv").config();
+
+// const { body, validationResult } = require("express-validator");
+// const Sequelize = require("sequelize");
+// const sequelize = new Sequelize(
+//   process.env.DB_NAME,
+//   process.env.DB_USERNAME,
+//   process.env.DB_PASSWORD,
+//   {
+//     host: process.env.DB_HOST,
+//     dialect: "postgres",
+//   }
+// );
+
+// const initModels = require("../models/init-models");
+// const { components, component_suppliers, supplier } = initModels(sequelize);
+
+// module.exports = {
+//   suppliers: async () => {
+//     await supplier.destroy({ truncate: true, restartIdentity: true });
+//   },
+// };

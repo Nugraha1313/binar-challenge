@@ -53,7 +53,7 @@ module.exports = {
       });
 
       if (!selectedSupplier) {
-        return res.status(404).json({
+        return res.status(400).json({
           status: false,
           message: "Can't find Supplier with id " + supplier_id,
           data: null,
@@ -74,7 +74,7 @@ module.exports = {
       const { name, address, component_id } = req.body;
 
       if (!name) {
-        return res.status(404).json({
+        return res.status(400).json({
           status: false,
           message: "name is required",
           data: null,
@@ -121,7 +121,7 @@ module.exports = {
       );
 
       if (!isExist) {
-        return res.status(404).json({
+        return res.status(400).json({
           status: false,
           message: "Can't find component with id " + component_id,
           data: null,
@@ -199,7 +199,7 @@ module.exports = {
         );
 
         if (updateSupplier[0] == 0) {
-          return res.status(404).json({
+          return res.status(400).json({
             status: false,
             message: "Cant Find Supplier with id " + supplier_id,
             data: null,
@@ -224,7 +224,7 @@ module.exports = {
         (component) => component.id == component_id
       );
       if (!isExist) {
-        return res.status(404).json({
+        return res.status(400).json({
           status: false,
           message: "Can't find component with id " + component_id,
           data: null,
@@ -255,7 +255,7 @@ module.exports = {
       );
 
       if (updateSupplier[0] == 0) {
-        return res.status(404).json({
+        return res.status(400).json({
           status: false,
           message: "Cant Find Supplier with id " + supplier_id,
           data: null,
@@ -317,7 +317,7 @@ module.exports = {
       });
 
       if (!deleted) {
-        return res.status(404).json({
+        return res.status(400).json({
           status: false,
           message: "Cant Find Supplier with id " + supplier_id,
           data: null,
